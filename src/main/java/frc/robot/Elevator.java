@@ -31,16 +31,16 @@ public class Elevator
     }
     
 
-    //does not work
+    
     public static void lift(double power){
         left.set(power);
-        right.set(power);
+        right.set(-power);
 
     }
 
     //whatch flip
     public static void clawFlipUp(boolean isPressed)
-    {
+    {v
         claw.set(isPressed);
     }
 

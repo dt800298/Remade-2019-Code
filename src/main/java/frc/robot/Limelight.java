@@ -36,6 +36,8 @@ public class Limelight {
 
     
 
+    
+
     public static double getTx(){
         return tx;
     }
@@ -48,5 +50,18 @@ public class Limelight {
     public static double getTa(){
         return ta;
     }
+
+    public static void lineUp(){
+        Limelight.refresh();
+        double target = DriveTrain.getAHRS() + Limelight.getTx();
+        DriveTrain.turnToAngle(target);
+        System.out.println("TARGET: " + target);
+        System.out.println("AHRS: " + DriveTrain.getAHRS());
+        if( (Limelight.getTx() >= 5d || Limelight.getTx() <= -5d)){
+            DriveTrain.pidDisable();
+        }
+    }
+
+
 
 }
