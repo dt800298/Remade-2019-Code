@@ -1,0 +1,9 @@
+[
+  {
+    "artifact": "frcJava (in project Remade-2019-Code-master)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "Remade-2019-Code-master",
+    "language": "java"
+  }
+]

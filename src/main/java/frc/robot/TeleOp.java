@@ -38,7 +38,7 @@ public class TeleOp{
 
     //Driver controls
 
-    public static void noPIDlineup(boolean leftBumper)
+    public static void noPIDLineup(boolean leftBumper)
     {
         double error = Limelight.getTx();
         if(leftBumper == true){
@@ -59,23 +59,32 @@ public class TeleOp{
     {
         if(driver.getLeftBumper()){
             //change to a "hasvalidtargets" function
-              if(Limelight.getTv() == 1){
+              //if(Limelight.getTv() == 1){
                   if(driver.getLeftBumper()){
   
-                      if(Limelight.getTx() <= 6d && Limelight.getTx() >= -6d){
-                          DriveTrain.arcadeDrive(0, 0.2);
+                      /*if(Limelight.getTx() <= 3d && Limelight.getTx() >= -3d){
+                          DriveTrain.arcadeDrive(0, 0.1);
                       }
-                      else{
-                          Limelight.lineUp();
-                      }
+                      */
+                      //else{
+                          DriveTrain.pidEnable();
+                          DriveTrain.lineUp();
+                          System.out.println("Lineup activated");
+                     // }
                    }else{
                        if(DriveTrain.ispidEnabled()){
                            DriveTrain.pidDisable();
+                           
+                               
+                           
                        }
-                       DriveTrain.arcadeDrive(Utils.expoDeadzone(driver.getLeftStickXAxis()), driver.getRightStickYAxis());)
+                      
                    }
-              }
+             // }
           }
+        else{
+            DriveTrain.arcadeDrive(Utils.expoDeadZone(driver.getLeftStickXAxis()), Utils.expoDeadZone(driver.getRightStickYAxis()));
+        }
 
     }
     

@@ -48,6 +48,10 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotPeriodic() {
+
+    SmartDashboard.putNumber("Yaw", DriveTrain.getYaw());
+    SmartDashboard.putNumber("Roll", DriveTrain.getRoll());
+    SmartDashboard.putNumber("Pitch", DriveTrain.getPitch());
   }
 
   /**

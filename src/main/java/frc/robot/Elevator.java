@@ -40,7 +40,7 @@ public class Elevator
 
     //whatch flip
     public static void clawFlipUp(boolean isPressed)
-    {v
+    {
         claw.set(isPressed);
     }
 

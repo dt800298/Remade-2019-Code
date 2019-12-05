@@ -2,23 +2,27 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.*;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class DriveTrain{
+public class DriveTrain implements PIDOutput{
     public static DriveTrain instance;
     private static CANSparkMax rightFront,  leftFront, rightMiddle, leftMiddle, rightBack, leftBack;
     public static AHRS gyro;
     private static PIDController gyropid;
-
+    
 
     public static DriveTrain getInstance() {
 		if (instance == null)
 			instance = new DriveTrain();
-		return instance;
+         return instance;
+        
+
+        
     }
 
     public DriveTrain(){
@@ -31,12 +35,18 @@ public class DriveTrain{
 
         gyro = new AHRS(SPI.Port.kMXP);
 
-        gyropid = new PIDController(1, 0, 0, gyro, gyropid);
+        gyropid = new PIDController(0.5, 0, 0, gyro, this);
         gyropid.setInputRange(-180d, 180d);
         gyropid.setOutputRange(-1.0, 1.0);
         gyropid.setAbsoluteTolerance(2d);
 
         gyropid.setContinuous(true);
+
+       
+    }
+
+    public void pidWrite(double epic){
+
     }
 
     public static void drive(double leftPower, double rightPower){
@@ -56,31 +66,39 @@ public class DriveTrain{
     }
     
 
-    public static double getAHRS(){
-        return gyro.getAngle();
+    public static double getRoll(){
+        return gyro.getRoll();
+    }
+    public static double getYaw(){
+        return gyro.getYaw();
+    }
+    public static double getPitch(){
+        return gyro.getPitch();
     }
 
     public static void turnToAngle(double angle){
-        gyropid.setSetpoint(angle);
+       
         if(!gyropid.isEnabled()){
             System.out.println("PID Enabled");
             //leds when figured out
             gyropid.reset();
             gyropid.enable();
         }
+        gyropid.setSetpoint(angle);
+        //moved from top
     }
 
     
     //why change integral value??
-    public void pidWrite(double output) {
+    public static void pidrite(double output) {
 
         if (Math.abs(gyropid.getError()) < 5d) {
-            gyropid.setPID(gyropid.getP(), .001, 0);
+            gyropid.setPID(gyropid.getP(), 0, gyropid.getD());
         } else {
-            gyropid.setPID(gyropid.getP(), 0, 0);
+            gyropid.setPID(gyropid.getP(), 0, gyropid.getD());
         }
 
-
+        
         DriveTrain.arcadeDrive(output, 0);
 
     }
@@ -97,6 +115,23 @@ public class DriveTrain{
 
     public static boolean ispidEnabled(){
         return gyropid.isEnabled();
+    }
+
+    public static double getPid(){
+
+        return gyropid.get();
+    }
+
+    public static void lineUp(){
+        Limelight.refresh();
+        //double target = DriveTrain.getAHRS() + Limelight.getTx();
+        double target = 45;
+        DriveTrain.pidrite(gyropid.get());
+      
+        
+        //if( (Limelight.getTx() <= 3d || Limelight.getTx() >= -3d)){
+        //    DriveTrain.pidDisable();
+        //}
     }
 
 

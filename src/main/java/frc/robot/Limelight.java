@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.networktables.NetworkTable;
 
 public class Limelight {
@@ -12,6 +13,8 @@ public class Limelight {
     public static double ty = 0;
     public static double tv = 0;
     public static double ta = 0;
+
+  
 
 
     public static Limelight getInstance() {
@@ -51,16 +54,7 @@ public class Limelight {
         return ta;
     }
 
-    public static void lineUp(){
-        Limelight.refresh();
-        double target = DriveTrain.getAHRS() + Limelight.getTx();
-        DriveTrain.turnToAngle(target);
-        System.out.println("TARGET: " + target);
-        System.out.println("AHRS: " + DriveTrain.getAHRS());
-        if( (Limelight.getTx() >= 5d || Limelight.getTx() <= -5d)){
-            DriveTrain.pidDisable();
-        }
-    }
+   
 
 
 
